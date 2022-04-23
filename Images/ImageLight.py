@@ -1,4 +1,6 @@
 from PIL import Image
 
-image = Image.open("path.jpg")
-image.save("newpath.jpg",optimize=True,quality=70)
+size=1500,1125
+image=Image.open("obra1foto1.jpg")
+image=image.resize(size)
+image.save("newpath.jpg",optimize=True,quality=60)
