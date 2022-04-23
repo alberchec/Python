@@ -1,6 +1,13 @@
 from PIL import Image
+import sys
 
-size=1500,1125
-image=Image.open("obra1foto1.jpg")
-image=image.resize(size)
-image.save("newpath.jpg",optimize=True,quality=60)
+arguments = sys.argv
+del arguments[0]
+
+for file in arguments:
+	size=1500,1125
+	image=Image.open(file)
+	image=image.resize(size)
+	image.save("mod_" + file,optimize=True,quality=60)
+
+	image.close()
