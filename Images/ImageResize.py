@@ -5,10 +5,16 @@ arguments = sys.argv
 del arguments[0]
 
 #SET RESULT IMAGE SIZE, first larger value
-size=1500,1125
-#size=800,600
-#size=200,150
+size = arguments[0]
 
+if(size == "-l" or size == "-m" or size == "-s"):
+	del arguments[0]
+
+if(size == "-m"): size = 800,600
+elif(size == "-s"): size = 200,150
+else: size = 1500,1125
+
+#MODIFY IMAGES
 for file in arguments:
 	image=Image.open(file)
 	image=ImageOps.exif_transpose(image)
