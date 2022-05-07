@@ -4,11 +4,12 @@ import sys
 arguments = sys.argv
 del arguments[0]
 
-for file in arguments:
-	size=1500,1125
-	#size=800,600
-	#size=200,150
+#SET RESULT IMAGE SIZE, first larger value
+size=1500,1125
+#size=800,600
+#size=200,150
 
+for file in arguments:
 	image=Image.open(file)
 	image=ImageOps.exif_transpose(image)
 	pixels = image.size
@@ -16,7 +17,19 @@ for file in arguments:
 	if(pixels[0] < pixels[1]):
 		size = size[1],size[0]
 
-	image=image.resize(size)
+	#CHECK IF IMAGE IS BIGGER THAN RESIZE VALUE
+	size_ratio = size[0] / size[1]
+	img_ratio = pixels[0] / pixels[1]
+
+	if(img_ratio >= size_ratio and pixels[0] > size[0]):
+		y_size = int(size[0]/img_ratio)
+		size = size[0],y_size
+		image = image.resize(size)
+	elif(img_ratio < size_ratio and pixels[1] > size[1]):
+		x_size = int(img_ratio * size[1])
+		size = x_size,size[1]
+		image = image.resize(size)
+
 	image = image.filter(ImageFilter.GaussianBlur(radius=0.5) )
 	image.save("mod_" + file,optimize=True,quality=80)
 
